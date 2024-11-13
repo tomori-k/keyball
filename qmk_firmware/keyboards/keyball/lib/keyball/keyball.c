@@ -210,10 +210,9 @@ __attribute__((weak)) void keyball_on_apply_motion_to_mouse_scroll(keyball_motio
 #    error("unknown Keyball model")
 #endif
 
-#ifdef SCROLL_NATURAL
+    // macOS のスクロール方向にする
     r->h = -r->h;
     r->v = -r->v;
-#endif
 
     // Scroll snapping
 #if KEYBALL_SCROLLSNAP_ENABLE == 1
