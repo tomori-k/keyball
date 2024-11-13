@@ -166,6 +166,10 @@ void pointing_device_driver_set_cpi(uint16_t cpi) {
     keyball_set_cpi(cpi);
 }
 
+// is_left: master が左かどうかを表してるっぽい。
+// おそらく、トラックボールのセンサーの値が slave から master に伝えられるときに反転するようになっていて、
+// master が左の時はセンサーの値が反転してしまうからそれを補正するために必要。
+
 __attribute__((weak)) void keyball_on_apply_motion_to_mouse_move(keyball_motion_t *m, report_mouse_t *r, bool is_left) {
 #if KEYBALL_MODEL == 61 || KEYBALL_MODEL == 39 || KEYBALL_MODEL == 147 || KEYBALL_MODEL == 44
     r->x = clip2int8(m->y);
@@ -204,6 +208,11 @@ __attribute__((weak)) void keyball_on_apply_motion_to_mouse_scroll(keyball_motio
     r->v = clip2int8(y);
 #else
 #    error("unknown Keyball model")
+#endif
+
+#ifdef SCROLL_NATURAL
+    r->h = -r->h;
+    r->v = -r->v;
 #endif
 
     // Scroll snapping
@@ -279,7 +288,7 @@ report_mouse_t pointing_device_driver_get_report(report_mouse_t rep) {
     if (is_keyboard_master() && should_report()) {
         // modify mouse report by PMW3360 motion.
         motion_to_mouse(&keyball.this_motion, &rep, is_keyboard_left(), keyball.scroll_mode);
-        motion_to_mouse(&keyball.that_motion, &rep, !is_keyboard_left(), keyball.scroll_mode ^ keyball.this_have_ball);
+        motion_to_mouse(&keyball.that_motion, &rep, !is_keyboard_left(), keyball.scroll_mode ^ keyball.this_have_ball /* この XOR よくわからない。要らなくない？*/);
         // store mouse report for OLED.
         keyball.last_mouse = rep;
     }
