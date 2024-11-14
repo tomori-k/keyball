@@ -60,15 +60,15 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-const uint16_t PROGMEM combo_left_click[] = {KC_J, KC_K, COMBO_END}
-const uint16_t PROGMEM combo_right_click[] = {KC_K, KC_L, COMBO_END}
-const uint16_t PROGMEM combo_center_click[] = {KC_J, KC_L, COMBO_END}
+const uint16_t PROGMEM combo_left_click[] = {KC_J, KC_K, COMBO_END};
+const uint16_t PROGMEM combo_right_click[] = {KC_K, KC_L, COMBO_END};
+const uint16_t PROGMEM combo_center_click[] = {KC_J, KC_L, COMBO_END};
 
 combo_t key_combos[] = {
   COMBO(combo_left_click, KC_BTN1),
   COMBO(combo_right_click, KC_BTN2),
   COMBO(combo_center_click, KC_BTN3),
-}
+};
 
 layer_state_t layer_state_set_user(layer_state_t state) {
     // Auto enable scroll mode when the highest layer is 3
