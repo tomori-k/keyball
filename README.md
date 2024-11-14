@@ -46,3 +46,9 @@ See [document for firmware source code](./qmk_firmware/keyboards/keyball/readme.
 ### Pre-compiled Firmwares
 
 (TO BE DOCUMENTED)
+
+## Docker でのファームウェアのビルド
+
+```
+docker compose run --rm [--build] build
+```
