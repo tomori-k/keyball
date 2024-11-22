@@ -26,7 +26,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [0] = LAYOUT_universal(
     KC_Q     , KC_W     , KC_E     , KC_R     , KC_T     ,                            KC_Y     , KC_U     , KC_I     , KC_O     , KC_P     ,
     KC_A     , KC_S     , KC_D     , KC_F     , KC_G     ,                            KC_H     , KC_J     , KC_K     , KC_L     , KC_MINS  ,
-    KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                            KC_N     , KC_M     , KC_COMM  , KC_DOT   , KC_SLSH  ,
+    KC_Z     , KC_X     , KC_C     , KC_V     , KC_B     ,                            KC_N     , RSFT_T(KC_M) , KC_COMM  , KC_DOT   , KC_SLSH  ,
     KC_LCTL  , KC_LGUI  , KC_LALT  ,LSFT_T(KC_LNG2),LT(1,KC_SPC),LT(3,KC_LNG1),KC_BSPC,LT(2,KC_ENT),LSFT_T(KC_LNG2),KC_RALT,KC_RGUI, KC_RSFT
   ),
 
@@ -56,17 +56,26 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 const uint16_t PROGMEM combo_left_click[] = {KC_J, KC_K, COMBO_END};
 const uint16_t PROGMEM combo_right_click[] = {KC_K, KC_L, COMBO_END};
 const uint16_t PROGMEM combo_center_click[] = {KC_J, KC_L, COMBO_END};
+const uint16_t PROGMEM combo_eisu[] = {KC_W, KC_E, COMBO_END};
+const uint16_t PROGMEM combo_kana[] = {KC_I, KC_O, COMBO_END};
 
 combo_t key_combos[] = {
   COMBO(combo_left_click, KC_BTN1),
   COMBO(combo_right_click, KC_BTN2),
   COMBO(combo_center_click, KC_BTN3),
+  COMBO(combo_kana, KC_LNG1),
+  COMBO(combo_eisu, KC_LNG2),
 };
 
-layer_state_t layer_state_set_user(layer_state_t state) {
-    // Auto enable scroll mode when the highest layer is 3
-    keyball_set_scroll_mode(get_highest_layer(state) == 3);
-    return state;
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case RSFT_T(KC_M):
+      // Enable scroll mode when 'M(Shift*)' is pressed
+      keyball_set_scroll_mode(record->event.pressed);
+      return true;
+    default:
+      return true;
+  }
 }
 
 #ifdef OLED_ENABLE
