@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  build:
+    build:
+      context: .
+    container_name: keyball-vial-build-container
+    volumes:
+      - ..:/usr/src/keyball
+    working_dir: /usr/src/vial-qmk
+    command: bash /usr/src/keyball/vial/build.sh
